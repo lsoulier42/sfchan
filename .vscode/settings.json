@@ -1,0 +1,11 @@
+{
+    "intelephense.phpdoc.functionTemplate": {
+        
+        "summary": "$1",
+        "tags": [
+            "@param ${1:$SYMBOL_TYPE} $SYMBOL_NAME $2",
+            "@return ${1:$SYMBOL_TYPE} $2",
+            "@throws ${1:$SYMBOL_TYPE} $2"
+        ]
+    }
+}

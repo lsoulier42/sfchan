@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use App\Repository\BoardRepository;
@@ -20,11 +21,15 @@ class Board extends AbstractEntity
     #[NotBlank]
     private string $description;
 
+    /**
+     * @var Collection<Thread> $threads
+     */
     #[OneToMany(targetEntity: Thread::class, mappedBy: 'board')]
     private Collection $threads;
 
     public function __construct()
     {
+        parent::__construct();
         $this->threads = new ArrayCollection();
     }
 
@@ -77,7 +82,7 @@ class Board extends AbstractEntity
     /**
      * Get the value of threads
      *
-     * @return Collection
+     * @return Collection<Thread>
      */
     public function getThreads(): Collection
     {
@@ -87,7 +92,7 @@ class Board extends AbstractEntity
     /**
      * Set the value of threads
      *
-     * @param Collection $threads
+     * @param Collection<Thread> $threads
      *
      * @return self
      */
@@ -98,6 +103,10 @@ class Board extends AbstractEntity
         return $this;
     }
 
+    /**
+     * @param Thread $thread
+     * @return self
+     */
     public function addThread(Thread $thread): self
     {
         if (!$this->threads->contains($thread)) {
@@ -107,6 +116,12 @@ class Board extends AbstractEntity
         return $this;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param Thread $thread
+     * @return self
+     */
     public function removeThread(Thread $thread): self
     {
         if ($this->threads->contains($thread)) {

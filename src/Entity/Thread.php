@@ -3,33 +3,38 @@
 namespace App\Entity;
 
 use App\Repository\ThreadRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[Entity(repositoryClass: ThreadRepository::class)]
-class Thread extends AbstractEntity
+class Thread extends AbstractMessageEntity
 {
-    #[Column(unique: true)]
-    #[NotBlank()]
+    #[Column]
+    #[NotBlank]
     private string $title;
-
-    #[Column(type: Types::TEXT)]
-    #[NotBlank()]
-    private string $content;
-
-    #[ManyToOne(targetEntity: User::class, inversedBy: 'threads')]
-    #[JoinColumn(nullable: false)]
-    private User $author;
 
     #[ManyToOne(targetEntity: Board::class, inversedBy: 'threads')]
     #[JoinColumn(nullable: false)]
     private Board $board;
 
-    
+    /**
+     * @var Collection<Reply> $replies
+     */
+    #[OneToMany(targetEntity: Reply::class, mappedBy: 'thread')]
+    private Collection $replies;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->replies = new ArrayCollection();
+    }
 
     /**
      * Get the value of board
@@ -56,54 +61,6 @@ class Thread extends AbstractEntity
     }
 
     /**
-     * Get the value of author
-     *
-     * @return User
-     */
-    public function getAuthor(): User
-    {
-        return $this->author;
-    }
-
-    /**
-     * Set the value of author
-     *
-     * @param User $author
-     *
-     * @return self
-     */
-    public function setAuthor(User $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of content
-     *
-     * @return string
-     */
-    public function getContent(): string
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set the value of content
-     *
-     * @param string $content
-     *
-     * @return self
-     */
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
      * Get the value of title
      *
      * @return string
@@ -124,6 +81,55 @@ class Thread extends AbstractEntity
     {
         $this->title = $title;
 
+        return $this;
+    }
+
+    /**
+     * Get the value of replies
+     *
+     * @return Collection<Reply>
+     */
+    public function getReplies(): Collection
+    {
+        return $this->replies;
+    }
+
+    /**
+     * Set the value of replies
+     *
+     * @param Collection<Reply> $replies
+     *
+     * @return self
+     */
+    public function setReplies(Collection $replies): self
+    {
+        $this->replies = $replies;
+
+        return $this;
+    }
+
+    /**
+     * @param Reply $reply
+     * @return self
+     */
+    public function addReply(Reply $reply): self
+    {
+        if (!$this->replies->contains($reply)) {
+            $this->replies->add($reply);
+        }
+        $reply->setThread($this);
+        return $this;
+    }
+
+    /**
+     * @param Reply $reply
+     * @return self
+     */
+    public function removeReply(Reply $reply): self
+    {
+        if ($this->replies->contains($reply)) {
+            $this->replies->removeElement($reply);
+        }
         return $this;
     }
 }
