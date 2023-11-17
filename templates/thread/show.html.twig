@@ -1,0 +1,39 @@
+{% extends 'shared/layout/base.html.twig' %}
+
+{% block sub_title %}Thread - {{ thread.title }}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div>
+            Thread {{ thread.title }}
+        </div>
+        {{ render(controller('App\\Controller\\ReplyController::new', {'thread': thread.id})) }}
+        <a href="{{ path('board_show', {"board": thread.board.id}) }}">Retour au forum {{ thread.board.title }}</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="thread d-flex flex-column bg-dark bg-opacity-75 mb-4">
+        <div class="thread_header">
+            {{ thread.title }} -
+            {{ thread.author }} -
+            {{ thread.createdAt|date('d/m/Y H:i:s') }} -
+            No. {{ thread.id }}
+        </div>
+        <div class="thread_content">
+            {{ thread.content }}
+        </div>
+    </div>
+    {% for reply in replies %}
+        <div class="reply d-flex flex-column bg-dark bg-opacity-75 mb-2">
+            <div class="reply_header">
+                {{ reply.author }} -
+                {{ reply.createdAt|date('d/m/Y H:i:s') }} -
+                No. {{ reply.id }}
+            </div>
+            <div class="reply_content">
+                {{ reply.content }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

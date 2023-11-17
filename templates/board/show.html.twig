@@ -1,0 +1,42 @@
+{% extends 'shared/layout/base.html.twig' %}
+
+{% block sub_title %}Forum {{ board.title }}{% endblock %}
+
+{% block breadcrumb %}
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            Forum {{ board.title }}
+        </div>
+        <a href="{{ path('thread_new', {'board': board.id}) }}">
+            Nouveau thread
+        </a>
+        <a href="{{ path('board_index') }}">Retour à la liste des forum</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Résumé</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for thread in threads %}
+            <tr>
+                <td>{{ thread.id }}</td>
+                <td>
+                    <a href="{{ path('thread_show', {'thread': thread.id}) }}">
+                        {{ thread.title }}
+                    </a>
+                </td>
+                <td>{{ thread.author }}</td>
+                <td>{{ thread.content|slice(0, 20) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

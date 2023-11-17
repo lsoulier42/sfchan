@@ -1,0 +1,30 @@
+{% extends 'shared/layout/base.html.twig' %}
+
+{% block sub_title %}Board index{% endblock %}
+
+{% block breadcrumb %}
+    Liste des forums
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for board in boards %}
+                <tr>
+                    <td>{{ board.id }}</td>
+                    <td>
+                        <a href="{{ path('board_show', {'board': board.id}) }}">{{ board.title }}</a>
+                    </td>
+                    <td>{{ board.description }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

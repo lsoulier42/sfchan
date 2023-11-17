@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ThreadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -27,7 +26,7 @@ class Thread extends AbstractMessageEntity
     /**
      * @var Collection<Reply> $replies
      */
-    #[OneToMany(targetEntity: Reply::class, mappedBy: 'thread')]
+    #[OneToMany(mappedBy: 'thread', targetEntity: Reply::class)]
     private Collection $replies;
 
     public function __construct()

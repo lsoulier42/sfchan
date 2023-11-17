@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            {{ 'project.name'|trans }} -
+            {% block sub_title %}
+            {% endblock %}
+        {% endblock %}
+    </title>
+    <link rel="icon" href="{{ asset('images/favicon.ico') }}">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+        <link rel="stylesheet" href="{{ asset('bundles/babdevpagerfanta/css/pagerfanta.css') }}">
+        {% block additionnal_stylesheets %}
+        {% endblock %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+        {% block additionnal_javascripts_top %}
+        {% endblock %}
+    {% endblock %}
+</head>
+<body class="bg-black py-3 text-white">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            {% block body %}
+                <div class="header mt-2 mb-4">
+                    {% block header %}
+                        {{ render(controller('App\\Controller\\MenuController::renderMenu')) }}
+                    {% endblock %}
+                </div>
+                <div class="body-alert">
+                    {% block alert %}
+                        {% include 'shared/layout/_alert.html.twig' %}
+                    {% endblock %}
+                </div>
+                <div class="content">
+                    <div class="content_breadcrumb bg-dark bg-opacity-75 mb-3 p-2">
+                        {% block breadcrumb %}
+                        {% endblock %}
+                    </div>
+                    <div class="content_content bg-dark bg-opacity-75 p-3">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+                <div class="footer my-3">
+                    {% block footer %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+    {% block additionnal_javascripts_bottom %}
+    {% endblock %}
+</body>
+</html>

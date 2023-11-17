@@ -1,0 +1,25 @@
+<div class="navbar navbar-expand-lg navbar-dark bg-dark d-flex flex-row justify-content-between py-2 px-4">
+    <div class="d-flex flex-row align-items-center">
+        <img src="{{ asset('img/lotus-with-hands-1889661_640.png') }}" alt="lotus" width="50px" />
+        <a class="navbar-brand ps-2" href="{{ path('homepage') }}">
+            {{ 'project.name'|trans }}
+        </a>
+    </div>
+    <div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('homepage') }}">Homepage</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('board_index') }}">Boards</a>
+            </li>
+            <li class="nav-item">
+                {% if app.user is not null %}
+                    <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                {% else %}
+                    <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>

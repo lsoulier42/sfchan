@@ -10,41 +10,45 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 abstract class AbstractMessageEntity extends AbstractEntity
 {
+    /**
+     * @var string $content
+     */
     #[Column(type: Types::TEXT)]
-    #[NotBlank()]
+    #[NotBlank]
     protected string $content;
 
+    /**
+     * @var User|null $user
+     */
     #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: false)]
-    protected User $author;
+    #[JoinColumn(nullable: true)]
+    protected ?User $user = null;
 
     /**
-     * Get the value of author
-     *
-     * @return User
+     * @var string|null $ipAddress
      */
-    public function getAuthor(): User
+    #[Column(nullable: true)]
+    protected ?string $ipAddress = null;
+
+    /**
+     * @return User|null
+     */
+    public function getUser(): ?User
     {
-        return $this->author;
+        return $this->user;
     }
 
     /**
-     * Set the value of author
-     *
-     * @param User $author
-     *
+     * @param User|null $user
      * @return self
      */
-    public function setAuthor(User $author): self
+    public function setUser(?User $user): self
     {
-        $this->author = $author;
-
+        $this->user = $user;
         return $this;
     }
 
     /**
-     * Get the value of content
-     *
      * @return string
      */
     public function getContent(): string
@@ -53,8 +57,6 @@ abstract class AbstractMessageEntity extends AbstractEntity
     }
 
     /**
-     * Set the value of content
-     *
      * @param string $content
      *
      * @return self
@@ -63,6 +65,33 @@ abstract class AbstractMessageEntity extends AbstractEntity
     {
         $this->content = $content;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor(): string
+    {
+        $user = $this->getUser();
+        return $user !== null ? $user->getUsername() : 'Anonymous';
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIpAddress(): ?string
+    {
+        return $this->ipAddress;
+    }
+
+    /**
+     * @param string|null $ipAddress
+     * @return self
+     */
+    public function setIpAddress(?string $ipAddress): self
+    {
+        $this->ipAddress = $ipAddress;
         return $this;
     }
 }
