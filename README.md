@@ -1,6 +1,6 @@
-# Symfony6-docker
+# sfchan
 
-Starter kit pour applications Symfony 6.3
+basic blogging app - 4chan-style
 
 ## Specifications:
 - PHP 8.2
