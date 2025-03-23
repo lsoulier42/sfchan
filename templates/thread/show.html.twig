@@ -2,18 +2,18 @@
 
 {% block sub_title %}Thread - {{ thread.title }}{% endblock %}
 
-{% block breadcrumb %}
-    <div class="d-flex flex-row justify-content-between align-items-center">
-        <div>
-            Thread {{ thread.title }}
-        </div>
-        {{ render(controller('App\\Controller\\ReplyController::new', {'thread': thread.id})) }}
-        <a href="{{ path('board_show', {"board": thread.board.id}) }}">Retour au forum {{ thread.board.title }}</a>
-    </div>
-{% endblock %}
-
 {% block content %}
-    <div class="thread d-flex flex-column bg-dark bg-opacity-75 mb-4">
+    <div class="bg-dark bg-opacity-75 mb-3 p-3">
+        <div class="d-flex flex-row justify-content-between align-items-center">
+            <div>
+                {% set board = thread.board %}
+                Thread {{ thread.title }} - Board {{ board.title }} - {{ board.description }}
+            </div>
+            <a href="{{ path('board_show', {"board": board.id}) }}">Retour au forum {{ board.title }}</a>
+        </div>
+    </div>
+<div class="bg-dark bg-opacity-75 mb-3 p-3">
+    <div class="thread d-flex flex-column bg-dark bg-opacity-75 mb-4 p-2">
         <div class="thread_header">
             {{ thread.title }} -
             {{ thread.author }} -
@@ -25,7 +25,7 @@
         </div>
     </div>
     {% for reply in replies %}
-        <div class="reply d-flex flex-column bg-dark bg-opacity-75 mb-2">
+        <div class="reply d-flex flex-column bg-dark bg-opacity-75 mb-2 p-2">
             <div class="reply_header">
                 {{ reply.author }} -
                 {{ reply.createdAt|date('d/m/Y H:i:s') }} -
@@ -36,4 +36,8 @@
             </div>
         </div>
     {% endfor %}
+</div>
+    <div class="bg-dark bg-opacity-75 pt-3">
+        {{ render(controller('App\\Controller\\ReplyController::new', {'thread': thread.id})) }}
+    </div>
 {% endblock %}

@@ -2,12 +2,12 @@
 
 {% block sub_title %}Board index{% endblock %}
 
-{% block breadcrumb %}
-    Liste des forums
-{% endblock %}
-
 {% block content %}
-    <table>
+    <div class="bg-dark bg-opacity-75 mb-3 p-3">
+        Liste des forums
+        <a href="{{ path('board_new')}}">Ajouter un forum</a>
+    </div>
+    <table class="table table-dark">
         <thead>
             <tr>
                 <th>Id</th>

@@ -2,8 +2,9 @@
 
 {% block sub_title %}Forum {{ board.title }}{% endblock %}
 
-{% block breadcrumb %}
-    <div class="d-flex flex-row justify-content-between">
+{% block content %}
+
+    <div class="d-flex flex-row justify-content-between bg-dark bg-opacity-75 mb-3 p-3">
         <div>
             Forum {{ board.title }}
         </div>
@@ -12,31 +13,30 @@
         </a>
         <a href="{{ path('board_index') }}">Retour à la liste des forum</a>
     </div>
-{% endblock %}
-
-{% block content %}
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Titre</th>
-            <th>Auteur</th>
-            <th>Résumé</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for thread in threads %}
+    <div class="bg-dark bg-opacity-75 mb-3 p-3">
+        <table class="table table-dark">
+            <thead>
             <tr>
-                <td>{{ thread.id }}</td>
-                <td>
-                    <a href="{{ path('thread_show', {'thread': thread.id}) }}">
-                        {{ thread.title }}
-                    </a>
-                </td>
-                <td>{{ thread.author }}</td>
-                <td>{{ thread.content|slice(0, 20) }}</td>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Résumé</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for thread in threads %}
+                <tr>
+                    <td>{{ thread.id }}</td>
+                    <td>
+                        <a href="{{ path('thread_show', {'thread': thread.id}) }}">
+                            {{ thread.title }}
+                        </a>
+                    </td>
+                    <td>{{ thread.author }}</td>
+                    <td>{{ thread.content|slice(0, 20) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

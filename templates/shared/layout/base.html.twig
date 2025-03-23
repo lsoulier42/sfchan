@@ -35,14 +35,8 @@
                     {% endblock %}
                 </div>
                 <div class="content">
-                    <div class="content_breadcrumb bg-dark bg-opacity-75 mb-3 p-2">
-                        {% block breadcrumb %}
-                        {% endblock %}
-                    </div>
-                    <div class="content_content bg-dark bg-opacity-75 p-3">
-                        {% block content %}
-                        {% endblock %}
-                    </div>
+                    {% block content %}
+                    {% endblock %}
                 </div>
                 <div class="footer my-3">
                     {% block footer %}
