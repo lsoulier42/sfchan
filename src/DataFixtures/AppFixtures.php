@@ -34,6 +34,12 @@ class AppFixtures extends Fixture
             $this->adminPassword,
             UserRoleEnum::ROLE_ADMIN,
             true
+        ],[
+            'Kiffeur',
+            'kiffeur@sole.com',
+            '1234',
+            UserRoleEnum::ROLE_USER,
+            true
         ]];
         foreach ($usersData as $userData) {
             $user = new User();

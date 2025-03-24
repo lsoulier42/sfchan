@@ -37,7 +37,7 @@ class BoardType extends AbstractType
                 ]
              )
              ->add('submit', SubmitType::class, [
-                 'label' => 'Créer'
+                 'label' => 'Valider'
              ]);
     }
 

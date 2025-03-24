@@ -1,0 +1,35 @@
+{% extends 'shared/layout/base.html.twig' %}
+
+{% block sub_title %}Modifier un forum{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-row justify-content-between align-items-center bg-dark bg-opacity-75 mb-3 p-3">
+        <div>
+            Modifier le forum - {{ board.title }}
+        </div>
+        <a href="{{ path('board_index')}}">Retour à la liste des forums</a>
+    </div>
+    <div class="bg-dark bg-opacity-75 mb-3 p-3">
+        {{ form_start(form) }}
+        <div class="d-flex flex-column align-items-center">
+            <div class="d-flex flex-row justify-content-start mb-2">
+                <div class="border border-dark me-1 d-flex flex-row align-items-center p-2">
+                    Titre
+                </div>
+                <div class="d-flex flex-column align-content-center">
+                    {{ form_widget(form.title) }}
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-start mb-2">
+                <div class="bg-primary border border-dark me-1 d-flex flex-row align-items-center p-2">
+                    Description
+                </div>
+                <div class="d-flex flex-column align-content-center">
+                    {{ form_widget(form.description) }}
+                </div>
+            </div>
+            {{ form_row(form.submit) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

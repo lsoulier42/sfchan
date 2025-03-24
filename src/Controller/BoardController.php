@@ -9,9 +9,11 @@ use App\Form\BoardType;
 use App\Repository\BoardRepository;
 use App\Repository\ThreadRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/board')]
 class BoardController extends AbstractController
@@ -39,6 +41,7 @@ class BoardController extends AbstractController
      * @return Response
      */
     #[Route(path: '/new', name: 'board_new')]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(
         Request $request,
         BoardRepository $boardRepository,
@@ -64,10 +67,40 @@ class BoardController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param BoardRepository $boardRepository
      * @param Board $board
      * @return Response
      */
-    #[Route(path: '/{board}', name: 'board_show')]
+    #[Route(path: '/{board}/edit', name: 'board_edit')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function edit(
+        Request $request,
+        BoardRepository $boardRepository,
+        Board $board
+    ): Response {
+        $form = $this->createForm(BoardType::class, $board);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $boardRepository->createOrUpdate($board);
+            return $this->redirectToRoute(
+                'board_index'
+            );
+        }
+        return $this->render(
+            'board/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'board' => $board
+            ]
+        );
+    }
+
+    /**
+     * @param Board $board
+     * @return Response
+     */
+    #[Route(path: '/{board}/show', name: 'board_show')]
     public function show(
         Board $board
     ): Response {
@@ -78,6 +111,19 @@ class BoardController extends AbstractController
                 'threads' => $threads,
                 'board' => $board
             ]
+        );
+    }
+
+    #[Route(path: '/{board}/delete', name: 'board_delete')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(
+        Board $board,
+        BoardRepository $boardRepository,
+    ): RedirectResponse {
+        $boardRepository->remove($board);
+        $this->addFlash('success', 'Forum supprimé');
+        return $this->redirectToRoute(
+            'board_index'
         );
     }
 }

@@ -6,9 +6,9 @@
 
     <div class="d-flex flex-row justify-content-between bg-dark bg-opacity-75 mb-3 p-3">
         <div>
-            Forum {{ board.title }}
+            Forum {{ board.title }} - {{ board.description }}
         </div>
-        <a href="{{ path('thread_new', {'board': board.id}) }}">
+        <a class="btn btn-primary" href="{{ path('thread_new', {'board': board.id}) }}">
             Nouveau thread
         </a>
         <a href="{{ path('board_index') }}">Retour à la liste des forum</a>
